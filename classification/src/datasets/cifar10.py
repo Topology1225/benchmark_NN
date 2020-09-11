@@ -3,7 +3,7 @@ import torch
 import torchvision
 from torchvision import datasets, transforms
 
-class MNIST(object): 
+class CIFAR10(object): 
     def __init__(self, root="../storage"): 
         self.root = root 
 
@@ -15,14 +15,14 @@ class MNIST(object):
         else:
             self.transform = transformer  
 
-        self.trainset = datasets.MNIST(
+        self.trainset = datasets.CIFAR10(
             root=self.root, 
             train=True,
             download=True,
             transform=self.transform
         )
 
-        self.testset = datasets.MNIST(
+        self.testset = datasets.CIFAR10(
             root=self.root, 
             train=False, 
             download=True, 
@@ -43,7 +43,7 @@ class MNIST(object):
 
 
 if __name__=="__main__":
-    dataset = MNIST()
+    dataset = CIFAR10()
     dataset.constructor()  
     for images, labels in dataset.batch_iter(
                     test=False,
