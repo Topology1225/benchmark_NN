@@ -1,0 +1,10 @@
+pip-review
+wheel 
+pytest
+tqdm
+numpy
+torch
+torchvision
+opencv-python
+jupyter
+notebook
