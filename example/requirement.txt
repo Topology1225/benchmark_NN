@@ -1,0 +1,12 @@
+# pip install -r requirement.txtでインストールできます.
+## ここにはinstallしたいpython moduleを記載します.
+
+numpy 
+scikit-learn
+scipy
+torch
+torchvision 
+pulp
+jupyter 
+notebook
+
