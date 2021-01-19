@@ -1,7 +1,13 @@
+import os
+
 import torch 
 from torch.nn.parallel import DistributedDataParallel as DDP
-from utils import get_optimizer , select_device
+import plotly.graph_objects as go
 
+from utils import get_optimizer, select_device, increment_path
+from utils import setup_logger
+
+logger = setup_logger(__name__)
 
 class BaseTrainer(object):
     config = None
@@ -16,20 +22,35 @@ class BaseTrainer(object):
             config=self.config,
             model=model
         )
-
+        
+        self.model = model
         self._train(
             epochs=self.config.train.epoch,
             batch_size=self.config.train.batch_size,
             dataset=dataset,
-            valid_dataset=valid_dataset,
-            model=model
+            valid_dataset=valid_dataset
         )
     
     def save(self):
-        self.description()
+        self._describe()
+
+    def _plot_loss(self, x_dict):
+        assert set(x_dict.keys()).issubset(set(["train", "valid"]))
+        data = list()
+        for phase in x_dict.keys():
+            for l_name, epoch2loss in x_dict[phase].items():
+                loss = list(epoch2loss.values())
+                data.append(
+                    go.Scatter(
+                        x=list(range(len(epoch2loss.values()))), 
+                        y=list(epoch2loss.values()), 
+                        name=f"{phase}-{l_name}"
+                    )
+                )
+        fig = go.Figure(data=data)
+        fig.write_html(os.path.join(self.config.result_dir, "loss.html"))
 
     def _set_updater(self, loss): 
-
         self.optimizer.zero_grad()
         loss.backward()
         self.optimizer.step() 
@@ -37,12 +58,6 @@ class BaseTrainer(object):
     def _set_cuda(self, model):
         has_device = hasattr(self.config, "device") 
         if has_device:
-            # device_ids = min(self.config.device_ids) 
-            # self.device = torch.device(f"cuda:{device_ids}") 
-            
-            # # dataparallel
-            # model = torch.nn.DataParallel(model, device_ids=device_ids) 
-            # return model
             device = self.config.device
 
         else:
@@ -54,7 +69,6 @@ class BaseTrainer(object):
         setattr(self.config, "device", device) 
         setattr(self.config, "cuda", self.cuda)
         return model
-
 
 
     def _train(self, *args, **kwars):
