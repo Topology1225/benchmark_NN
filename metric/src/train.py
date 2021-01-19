@@ -1,12 +1,17 @@
+import os
 from pathlib import Path 
 from argparse import ArgumentParser
 import shutil 
+import datetime
 
 from trainers import get_trainer
 from dataset import get_dataset
 from models import get_model 
 
-from utils import setup_logger, read_yaml
+from utils import (
+    setup_logger, read_yaml, increment_path, save_yaml,
+    save_hostname
+)
 
 def argparser():
     parser = ArgumentParser()
@@ -47,6 +52,15 @@ def argparser():
 
 def main(config, dset_config):
 
+    root_dir = Path(increment_path(os.path.join(config.result_dir, "runs")))
+    Path(os.path.join(root_dir, "weights")).mkdir(parents=True, exist_ok=True)
+    config.result_dir = root_dir
+    log = setup_logger.setFileHandler(filename=os.path.join(root_dir, "log.txt"))
+    save_yaml(config)
+    save_hostname(config)
+    dt_now = datetime.datetime.now()
+    logger.info(f"\n Start: {dt_now.strftime('%Y年%m月%d日 %H:%M:%S')}")
+
     dset = get_dataset(
         config, dset_config, mode="train"
     )
@@ -74,7 +88,8 @@ if __name__=="__main__":
     logger = setup_logger.setLevel(args.log_level)
     config = read_yaml(args.param)
     dset_config = read_yaml(args.dataset)
-    breakpoint()
+    setattr(config, "param_path", args.param)
+    setattr(config, "dset_param_path", args.dataset)
     setattr(config, "device", args.device) 
     setattr(config, "result_dir", args.result_dir)
     main(config, dset_config)
