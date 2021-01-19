@@ -1,0 +1,39 @@
+model: 
+  name: resnet50
+  version: pytorch/vision:v0.6.0
+  pretrained: True
+
+loss:
+  name: triplet
+  params:
+    num_dim: 100
+    margin: 1.0
+    p: 2.0
+    eps: 1.0e-06
+    swap: False
+    size_average:
+    reduce: 
+    reduction: mean
+
+
+init: 
+  name: xavier_uniform
+  params:
+    # xavier_uniform
+    gain: 1.0
+
+optimizer:
+  name: sgd
+  params:
+    # sgd
+    lr: 1.0e-4
+    momentum: 0.9
+    weight_decay: 5.0e-4
+
+train:
+  dset_type: triplet
+  epoch: 1
+  batch_size: 1
+  num_workers: 0
+
+    
