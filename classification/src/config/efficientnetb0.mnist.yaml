@@ -1,0 +1,36 @@
+model: 
+  name: efficientnet_b0
+  version: lukemelas/EfficientNet-PyTorch
+  pretrained: True
+
+loss:
+  name: clf
+  params:
+    num_dim: 10
+    # cross entropy
+    size_average:
+    ignore_index: -100
+    reduce:
+    reduction: mean
+
+init: 
+  name: xavier_uniform
+  params:
+    # xavier_uniform
+    gain: 1.0
+
+optimizer:
+  name: sgd
+  params:
+    # sgd
+    lr: 1.0e-4
+    momentum: 0.9
+    weight_decay: 5.0e-4
+
+train:
+  dset_type: clf
+  epoch: 1
+  batch_size: 300
+  num_workers: 10
+
+    
