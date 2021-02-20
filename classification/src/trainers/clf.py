@@ -68,7 +68,7 @@ class ClfTrainer(BaseTrainer):
         for e in range(epochs): 
             self.model.train()
             pbar = enumerate(train_dloader)
-            pbar = tqdm(pbar, total=int(len(dataset)/batch_size))
+            pbar = tqdm(pbar, total=math.ceil(len(dataset)/batch_size))
             t_sum_loss = list()
             v_sum_loss = list()
             for i, (x, labels) in pbar:   
