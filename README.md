@@ -40,7 +40,9 @@ python train.py -o ../debug -i ./config/arcface.yaml -d ./config/mnist.yaml --lo
 ```
 
 Arcface: https://arxiv.org/pdf/1801.07698.pdf
+
 Triplet loss: https://arxiv.org/pdf/1412.6622.pdf
+
 Beyond triplet loss:https://arxiv.org/pdf/1704.01719.pdf
 
 ## Notation
