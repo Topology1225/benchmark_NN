@@ -8,6 +8,8 @@ torchvision
 opencv-python
 jupyter
 notebook
+requests
+plotly
 
 attrdict
 pyyaml
