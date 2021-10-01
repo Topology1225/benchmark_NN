@@ -30,7 +30,7 @@ optimizer:
 train:
   dset_type: clf
   epoch: 1
-  batch_size: 300
+  batch_size: 100
   num_workers: 10
 
     
