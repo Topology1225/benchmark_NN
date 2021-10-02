@@ -14,6 +14,8 @@ def get_dataset(config, dset_config, mode):
     logger.debug(f"\n [DATASET]: {dset_name}")
     if dset_name == "mnist":
         return get_mnist(config, dset_config, mode)
+    elif dset_name == "cifar10":
+        return get_cifar10(config, dset_config, mode)
     else:
         raise NotImplementedError
 
@@ -35,6 +37,23 @@ def get_mnist(config, dset_config, mode):
         else:
             train = False
         return torchvision.datasets.MNIST(
+            root=dset_config.root,
+            train=train,
+            transform=get_transforms(dset_config),
+            target_transform=get_target_transforms(dset_config),
+            download=dset_config.download,
+        )
+    else:
+        raise NotImplementedError
+
+def get_cifar10(config, dset_config, mode):
+    logger.debug(f"\n [Dataset Type]: {config.train.dset_type}")
+    if config.train.dset_type == "clf":
+        if mode == "train":
+            train = True
+        else:
+            train = False
+        return torchvision.datasets.CIFAR10(
             root=dset_config.root,
             train=train,
             transform=get_transforms(dset_config),
