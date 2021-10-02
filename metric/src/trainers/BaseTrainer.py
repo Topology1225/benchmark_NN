@@ -59,7 +59,7 @@ class BaseTrainer(object):
             device = self.config.device
 
         else:
-            device = ""
+            device = "cpu"
         device = select_device(device, self.config.train.batch_size)
         model = torch.nn.DataParallel(model).to(device)
         self.device = device
