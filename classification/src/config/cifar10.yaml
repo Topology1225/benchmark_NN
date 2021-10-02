@@ -3,7 +3,7 @@ classes: 10
 root: ../storage
 download: True
 transforms: 
-  resize: 256
+  resize: 512
   RGB: True 
 target_transform: 
 num_channel: 3

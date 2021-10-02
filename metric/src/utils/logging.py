@@ -2,6 +2,7 @@ from logging import getLogger, StreamHandler, FileHandler
 
 from colorlog import ColoredFormatter
 
+
 class setupLogger:
     def __init__(self):
         """Return a logger with a ColoredFormatter."""
@@ -10,12 +11,12 @@ class setupLogger:
             datefmt=None,
             reset=True,
             log_colors={
-                'DEBUG':    'cyan',
-                'INFO':     'green',
-                'WARNING':  'yellow',
-                'ERROR':    'red',
-                'CRITICAL': 'red',
-            }
+                "DEBUG": "cyan",
+                "INFO": "green",
+                "WARNING": "yellow",
+                "ERROR": "red",
+                "CRITICAL": "red",
+            },
         )
 
         logger = getLogger()
@@ -24,19 +25,16 @@ class setupLogger:
         self.setStreamHandler()
         # self.setFileHandler()
 
-
     def setStreamHandler(self):
         handler = StreamHandler()
         handler.setFormatter(self.formatter)
         self.root_logger.addHandler(handler)
-
 
     def setFileHandler(self, filename="ObjectDetection.log", log_level=10):
         handler = FileHandler(filename=filename)
         handler.setLevel(log_level)
         # handler.setFormatter(self.formatter)
         self.root_logger.addHandler(handler)
-
 
     def setLevel(self, log_level):
         self.root_logger.setLevel(log_level)

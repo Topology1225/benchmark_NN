@@ -4,9 +4,9 @@ wheel
 pytest
 tqdm
 numpy
-torch==1.9.0+cu111
-torchvision==0.10.0+cu111
-torchaudio==0.9.0 
+torch==1.9.1+cu111
+torchvision==0.10.1+cu111
+torchaudio==0.9.1 
 opencv-python
 jupyter
 notebook
@@ -16,3 +16,5 @@ plotly
 attrdict
 pyyaml
 colorlog
+black
+black[jupyter]

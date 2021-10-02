@@ -17,6 +17,7 @@ class TorchHub(torch.nn.Module):
     def _constructor(self):
         assert not self.config.loss.name is None
         nc = self.config.loss.params.num_dim
+        torch.hub._validate_not_a_forked_repo=lambda a,b,c: True
 
         model = \
             torch.hub.load(

@@ -1,6 +1,6 @@
 model: 
   name: resnet50
-  version: pytorch/vision:v0.6.0
+  version: pytorch/vision:v0.10.0
   pretrained: True
 
 loss:
@@ -33,7 +33,7 @@ optimizer:
 train:
   dset_type: clf
   epoch: 30
-  batch_size: 180
+  batch_size: 200
   num_workers: 0
 
     

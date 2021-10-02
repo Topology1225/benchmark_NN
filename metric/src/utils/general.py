@@ -16,7 +16,7 @@ logger = setup_logger(__name__)
 
 
 def read_yaml(path: List[Union[str, list]]) -> AttrDict:
-    """yamlを読み込み, dictのkeyをattrとするインスタンスをreturn 
+    """yamlを読み込み, dictのkeyをattrとするインスタンスをreturn
     Parameters
     ----------
     path: str or list
@@ -27,20 +27,18 @@ def read_yaml(path: List[Union[str, list]]) -> AttrDict:
     """
     if isinstance(path, str):
         obj = _read_yaml(path)
-    elif isinstance(path, list): 
+    elif isinstance(path, list):
         obj = dict()
         for p in path:
             assert isinstance(p, str)
             _obj = _read_yaml(p)
             if __debug__:
                 for key in _obj.keys():
-                    assert not key in obj.keys(),\
-                        f"{key} は他のconfigで設定されてます."
-            
+                    assert not key in obj.keys(), f"{key} は他のconfigで設定されてます."
+
             obj.update(_obj)
     obj = AttrDict(obj)
     return obj
- 
 
 
 def _read_yaml(path: str) -> dict:
@@ -58,7 +56,7 @@ def _read_yaml(path: str) -> dict:
     return obj
 
 
-def increment_path(path, exist_ok=False, sep=''):
+def increment_path(path, exist_ok=False, sep=""):
     # Increment path, i.e. runs/exp --> runs/exp{sep}0, runs/exp{sep}1 etc.
     path = Path(path)  # os-agnostic
     if (path.exists() and exist_ok) or (not path.exists()):
@@ -70,25 +68,29 @@ def increment_path(path, exist_ok=False, sep=''):
         n = max(i) + 1 if i else 2  # increment number
         return f"{path}{sep}{n}"  # update path
 
-def save2json(x:dict, save_path:str)->None:
+
+def save2json(x: dict, save_path: str) -> None:
     f = open(save_path, mode="w")
     json.dump(x, fp=f)
     f.close()
 
+
 def save_yaml(config):
-    param_name=config.param_path.split("/")[-1]
+    param_name = config.param_path.split("/")[-1]
     save_param_pt = os.path.join(config.result_dir, param_name)
     logger.debug(f"\n[SAVE]: {config.param_path}→{save_param_pt}")
     shutil.copy(config.param_path, save_param_pt)
 
-    param_name=config.dset_param_path.split("/")[-1]
-    save_param_pt = os.path.join(config.result_dir, param_name)  
+    param_name = config.dset_param_path.split("/")[-1]
+    save_param_pt = os.path.join(config.result_dir, param_name)
     logger.debug(f"\n[SAVE]: {config.dset_param_path}→{save_param_pt}")
     shutil.copy(config.dset_param_path, save_param_pt)
 
+
 def save_hostname(config):
     import socket
-    hostname = socket.gethostname() 
+
+    hostname = socket.gethostname()
     file_name = os.path.join(config.result_dir, f"{hostname}.txt")
     logger.info(f"\n {hostname}")
     with open(file_name, mode="w") as f:
