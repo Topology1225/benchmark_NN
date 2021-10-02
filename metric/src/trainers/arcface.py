@@ -168,7 +168,7 @@ class ArcfaceTrainer(BaseTrainer):
 
             self.l_train["loss"][e] = np.mean(t_sum_loss)
 
-            with torch.no_grad():
+            with torch.inference_mode():
                 self.model.eval()
                 pbar = enumerate(valid_dloader)
                 pbar = tqdm(pbar, total=math.ceil(len(valid_dataset) / batch_size))
